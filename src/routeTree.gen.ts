@@ -13,6 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as CImport } from './routes/c'
+import { Route as BImport } from './routes/b'
+import { Route as AImport } from './routes/a'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as authAuthLoginImport } from './routes/(auth)/auth.login'
 
@@ -28,6 +31,21 @@ const authAuthConfirmPasswordLazyImport = createFileRoute(
 )()
 
 // Create/Update Routes
+
+const CRoute = CImport.update({
+  path: '/c',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BRoute = BImport.update({
+  path: '/b',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ARoute = AImport.update({
+  path: '/a',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AuthenticatedRoute = AuthenticatedImport.update({
   id: '/_authenticated',
@@ -82,6 +100,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
+    '/a': {
+      id: '/a'
+      path: '/a'
+      fullPath: '/a'
+      preLoaderRoute: typeof AImport
+      parentRoute: typeof rootRoute
+    }
+    '/b': {
+      id: '/b'
+      path: '/b'
+      fullPath: '/b'
+      preLoaderRoute: typeof BImport
+      parentRoute: typeof rootRoute
+    }
+    '/c': {
+      id: '/c'
+      path: '/c'
+      fullPath: '/c'
+      preLoaderRoute: typeof CImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/home': {
       id: '/_authenticated/home'
       path: '/home'
@@ -127,6 +166,9 @@ export const routeTree = rootRoute.addChildren({
     AuthenticatedHomeLazyRoute,
     AuthenticatedIndexLazyRoute,
   }),
+  ARoute,
+  BRoute,
+  CRoute,
   authAuthLoginRoute,
   authAuthConfirmPasswordLazyRoute,
   authAuthForgotPasswordLazyRoute,
@@ -141,6 +183,9 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/_authenticated",
+        "/a",
+        "/b",
+        "/c",
         "/auth/login",
         "/auth/confirm-password",
         "/auth/forgot-password"
@@ -152,6 +197,15 @@ export const routeTree = rootRoute.addChildren({
         "/_authenticated/home",
         "/_authenticated/"
       ]
+    },
+    "/a": {
+      "filePath": "a.tsx"
+    },
+    "/b": {
+      "filePath": "b.tsx"
+    },
+    "/c": {
+      "filePath": "c.tsx"
     },
     "/_authenticated/home": {
       "filePath": "_authenticated/home.lazy.tsx",

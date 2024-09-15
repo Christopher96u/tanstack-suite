@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { withSlices } from "zustand-slices";
-import { catsSlice } from "./catsSlice";
+import { catsSlice, partializeCatsSlice } from "./catsSlice";
 import { koalasSlice, partializeKoalasSlice } from "./koalasSlice";
 import { createJSONStorage } from "zustand/middleware";
 import createZustandContext from "@/lib";
@@ -16,11 +16,10 @@ export const {
       persist(withSlices(catsSlice, koalasSlice), {
         name: "SessionStore",
         storage: createJSONStorage(() => sessionStorage),
-        // Add partialize - nice to have
-        //partialize: (store) => ({
-        // add partials here
-        //...partializeKoalasSlice(store.koalasStore),
-        //}),
+        partialize: (store) => ({
+          ...partializeKoalasSlice(store.koalasStore),
+          ...partializeCatsSlice(store.catsStore),
+        }),
       }),
       {
         enabled: true, // Add flag to enabled just for dev|staging

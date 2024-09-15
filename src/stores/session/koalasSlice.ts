@@ -17,10 +17,8 @@ export const koalasSlice = createSliceWithImmer({
   },
 });
 
-type PersistedKoalasSlice = typeof koalasSlice; // | "extraKoalas" | "otherKoalas"
-
-export const partializeKoalasSlice = (
-  store: typeof koalasSlice,
-): PersistedKoalasSlice => ({
-  name: store.name,
+export const partializeKoalasSlice = (store: typeof koalasSlice.value) => ({
+  koalasStore: {
+    koalas: store.koalas,
+  },
 });

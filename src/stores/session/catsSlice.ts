@@ -16,3 +16,9 @@ export const catsSlice = createSliceWithImmer({
     },
   },
 });
+
+export const partializeCatsSlice = (store: typeof catsSlice.value) => ({
+  catsStore: {
+    cats: store.cats,
+  },
+});

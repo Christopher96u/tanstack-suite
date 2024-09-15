@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { withSlices } from "zustand-slices";
 import { createJSONStorage } from "zustand/middleware";
-import createZustandContext from "@/lib";
+import createZustandContext from "@/lib/zustand-context";
 import { kangaroosSlice, partializeKangaroosSlice } from "./kangaroosSlice";
 import { dogsSlice, partializeDogsSlice } from "./dogsSlice";
 

@@ -4,7 +4,7 @@ import { withSlices } from "zustand-slices";
 import { catsSlice, partializeCatsSlice } from "./catsSlice";
 import { koalasSlice, partializeKoalasSlice } from "./koalasSlice";
 import { createJSONStorage } from "zustand/middleware";
-import createZustandContext from "@/lib";
+import createZustandContext from "@/lib/zustand-context";
 
 export const {
   StoreProvider: SessionStoreProvider,

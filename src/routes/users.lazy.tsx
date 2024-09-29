@@ -1,4 +1,5 @@
 import { getUsers } from "@/services/apis/getUsers";
+import { queryKeys, userQueryKeys } from "@/services/apis/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
@@ -7,14 +8,19 @@ export const Route = createLazyFileRoute("/users")({
 });
 
 function UsersPage() {
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryFn: getUsers,
-    queryKey: ['getUsers']
-  })
-  console.log(data)
+    queryKey: userQueryKeys.all,
+  });
+  console.log(data);
+  if (!data) return;
   return (
     <div>
-      <div></div>
+      <div>
+        {data.data.map((user) => {
+          return <div key={user.id}>{user.firstname}</div>;
+        })}
+      </div>
     </div>
   );
 }

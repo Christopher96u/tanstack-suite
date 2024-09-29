@@ -17,15 +17,13 @@ import { Route as CImport } from './routes/c'
 import { Route as BImport } from './routes/b'
 import { Route as AImport } from './routes/a'
 import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as AuthForgotPasswordImport } from './routes/auth/forgot-password'
+import { Route as AuthConfirmPasswordImport } from './routes/auth/confirm-password'
 
 // Create Virtual Routes
 
 const UsersLazyImport = createFileRoute('/users')()
-const AuthLoginLazyImport = createFileRoute('/auth/login')()
-const AuthForgotPasswordLazyImport = createFileRoute('/auth/forgot-password')()
-const AuthConfirmPasswordLazyImport = createFileRoute(
-  '/auth/confirm-password',
-)()
 const AuthHomeLazyImport = createFileRoute('/_auth/home')()
 
 // Create/Update Routes
@@ -55,29 +53,25 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthLoginLazyRoute = AuthLoginLazyImport.update({
-  path: '/auth/login',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/auth.login.lazy').then((d) => d.Route))
-
-const AuthForgotPasswordLazyRoute = AuthForgotPasswordLazyImport.update({
-  path: '/auth/forgot-password',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/auth.forgot-password.lazy').then((d) => d.Route),
-)
-
-const AuthConfirmPasswordLazyRoute = AuthConfirmPasswordLazyImport.update({
-  path: '/auth/confirm-password',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/auth.confirm-password.lazy').then((d) => d.Route),
-)
-
 const AuthHomeLazyRoute = AuthHomeLazyImport.update({
   path: '/home',
   getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./routes/_auth/home.lazy').then((d) => d.Route))
+
+const AuthLoginRoute = AuthLoginImport.update({
+  path: '/auth/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
+  path: '/auth/forgot-password',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthConfirmPasswordRoute = AuthConfirmPasswordImport.update({
+  path: '/auth/confirm-password',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -118,33 +112,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersLazyImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/home': {
-      id: '/_auth/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof AuthHomeLazyImport
-      parentRoute: typeof AuthImport
-    }
     '/auth/confirm-password': {
       id: '/auth/confirm-password'
       path: '/auth/confirm-password'
       fullPath: '/auth/confirm-password'
-      preLoaderRoute: typeof AuthConfirmPasswordLazyImport
+      preLoaderRoute: typeof AuthConfirmPasswordImport
       parentRoute: typeof rootRoute
     }
     '/auth/forgot-password': {
       id: '/auth/forgot-password'
       path: '/auth/forgot-password'
       fullPath: '/auth/forgot-password'
-      preLoaderRoute: typeof AuthForgotPasswordLazyImport
+      preLoaderRoute: typeof AuthForgotPasswordImport
       parentRoute: typeof rootRoute
     }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
       fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginLazyImport
+      preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/home': {
+      id: '/_auth/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthHomeLazyImport
+      parentRoute: typeof AuthImport
     }
   }
 }
@@ -157,9 +151,9 @@ export const routeTree = rootRoute.addChildren({
   BRoute,
   CRoute,
   UsersLazyRoute,
-  AuthConfirmPasswordLazyRoute,
-  AuthForgotPasswordLazyRoute,
-  AuthLoginLazyRoute,
+  AuthConfirmPasswordRoute,
+  AuthForgotPasswordRoute,
+  AuthLoginRoute,
 })
 
 /* prettier-ignore-end */
@@ -198,18 +192,18 @@ export const routeTree = rootRoute.addChildren({
     "/users": {
       "filePath": "users.lazy.tsx"
     },
+    "/auth/confirm-password": {
+      "filePath": "auth/confirm-password.tsx"
+    },
+    "/auth/forgot-password": {
+      "filePath": "auth/forgot-password.tsx"
+    },
+    "/auth/login": {
+      "filePath": "auth/login.tsx"
+    },
     "/_auth/home": {
       "filePath": "_auth/home.lazy.tsx",
       "parent": "/_auth"
-    },
-    "/auth/confirm-password": {
-      "filePath": "auth.confirm-password.lazy.tsx"
-    },
-    "/auth/forgot-password": {
-      "filePath": "auth.forgot-password.lazy.tsx"
-    },
-    "/auth/login": {
-      "filePath": "auth.login.lazy.tsx"
     }
   }
 }

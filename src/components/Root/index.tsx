@@ -19,6 +19,7 @@ const Root = () => {
               C
             </Link>
           </div>
+          <h1>This is a repo tanstack-suite - Chris Menendez</h1>
           <Outlet />
         </div>
       </div>
